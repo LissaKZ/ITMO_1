@@ -1,16 +1,17 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import javax.swing.JLabel;
 
-
 public class Window extends JFrame {
-   JTextField Field;
-   JComboBox box;
+    JTextField f;
+    JComboBox box;
    JComboBox Sours;
    String[] kind={"Из файла","С консоли"};
-   String [] type= {"Букофки ","Чеселки","Другое"};
+   String [] type= {"Букофки ","Чиселки","Другое"};
     public Window(){
         super("Ну допустим, интерфейс");
         JPanel panel = new JPanel();
@@ -34,16 +35,29 @@ public class Window extends JFrame {
         add(box);
         add(new JLabel("Введите размерность массива"));
 
-        add(Field = new JTextField("Тут должно быть число",12));
+        f = new JTextField(14);
+        f.setText("Здесь должно быть число");
+        this.add(f);
+        this.setVisible(true);
 
+        f.addFocusListener(new FocusListener() {
 
-        panel.add(new JButton("Воть"));
-        setBounds(200, 200, 300, 200);
+                               @Override
+                               public void focusGained(FocusEvent e) {
+                                   f.setText(null);
+                               }
 
-    }
-    public static void main(String[] args) {
-        Window app = new Window();
-        app.setVisible(true);
-    }
-
-}
+                               @Override
+                               public void focusLost(FocusEvent e) {
+                                   f.setText("Число!");
+                               }
+                           });
+                panel.add(new JButton("Воть"));
+                setBounds(200, 200, 300, 200);
+            }
+            /*
+            public static void main(String[] args) {
+                Window app = new Window();
+                app.setVisible(true);
+            }*/
+        }
