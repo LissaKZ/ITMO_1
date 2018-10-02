@@ -1,0 +1,99 @@
+import java.io.*;
+import java.util.ArrayList;
+
+public class Plak {
+    public static void main(String[] args) throws Exception{
+        BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
+        int err=0;
+        int v=0;
+        int vv=0;
+        int size=0;
+        ArrayList<String> list=new ArrayList<>();
+
+        System.out.println("Введите размерность массива");
+        try {
+            size=Integer.parseInt(reader.readLine());
+        } catch (NumberFormatException e) {
+            err--;
+        }
+        if (err == 0) {
+            System.out.println("Выберите формат ввода");
+            System.out.println("1--->С консоли");
+            System.out.println("2--->Из файла");
+           try{
+                v=Integer.parseInt(reader.readLine());
+                if((v!=1)&(v!=2)){
+                    err--;
+                }
+            }
+            catch (NumberFormatException e) {
+               System.out.println("Ошибка выбора формата ввода массива");
+                err--;
+            }
+            if(err==0){
+                System.out.println("Выберите формат вывода");
+                System.out.println("1--->В консоль");
+                System.out.println("2--->В файл");
+                try{
+                    vv=Integer.parseInt(reader.readLine());
+                    if((vv!=1)&(vv!=2)){
+                        err--;
+                    }
+                }
+                catch (NumberFormatException e) {
+                    err--;
+                }
+                if(err==0){
+                    for (int i=0;i<size;i++) {
+                        if (v == 1) {
+                            list.add(reader.readLine());
+                        } else {
+                            try (FileReader from = new FileReader("from.txt")) {
+                                int c;
+                                String s = "";
+                                while ((c = from.read()) != -1) {
+                                    if (c != ' ') {
+                                        s = s + c;
+                                    } else {
+                                        list.add(s);
+                                        list.add(" ");
+                                        s = "";
+                                    }
+
+                                    from.close();
+                                }
+                            } catch (IOException ex) {
+                                System.out.println(ex.getMessage());
+                            }
+                        }
+                    }
+                        if(vv==1){
+                            System.out.println(list);
+                        }
+                        else{
+                            try(FileWriter to = new FileWriter("to.txt", true))
+                            {
+                                for(int k=0;k<size;k++){
+                                    to.write(list.get(k));
+                                }
+                                to.flush();
+                                to.close();
+                            }
+                            catch(IOException ex){
+                                System.out.println(ex.getMessage());
+                            }
+                    }
+                }
+                else {
+                    System.out.println("Недопустимое значение");
+                }
+            }
+            else {
+                System.out.println("Недопустимое значение");
+            }
+        }
+        else {
+            System.out.println("Недопустимое значение");
+        }
+    }
+}
